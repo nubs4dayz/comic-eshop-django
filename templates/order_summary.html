@@ -1,0 +1,47 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h2>Резиме на нарачката</h2>
+
+    {% for comic in comic_in_order_items %}
+        <div class="p-3">
+            <div class="card" style="max-width: inherit; max-height: 200px">
+              <div class="row g-0">
+                <div class="col">
+                  <img src="{{MEDIA_URL}}{{comic.comic.cover_photo.url}}" class="img-fluid rounded-start p-2" alt="comic cover" style="height: 130px">
+                </div>
+                <div class="col-10">
+                  <div class="card-body">
+                      <div class="row text-center">
+                          <div class="col d-flex align-items-center justify-content-center">
+                            <h5 class="card-title">{{ comic.comic.name }}</h5>
+                          </div>
+                          <div class="col-2">
+                            <p class="card-text">Количина: {{ comic.quantity_added }}</p>
+                            <p class="card-text">Цена: {{ comic.comic.price }} ДЕН.</p>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    {% empty %}
+      <p>Ништо не нарачавте.</p>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-6 text-start p-4">
+            <a href="{% url 'cart' %}" class="btn btn-danger">Назад</a>
+        </div>
+        <div class="col-6 text-end p-4">
+            {% if comic_in_order_items %}
+                <a href="{% url 'checkout' %}" class="btn btn-success">Потврди</a>
+            {% else %}
+                <a href="{% url 'checkout' %}" class="btn btn-success disabled">Потврди</a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

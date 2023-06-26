@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h2>Електронска Кошничка</h2>
+    {% for comic in comics %}
+        <div class="p-3">
+            <div class="card" style="max-width: inherit; max-height: 200px">
+              <div class="row g-0">
+                <div class="col">
+                  <img src="{{MEDIA_URL}}{{comic.comic.cover_photo.url}}" class="img-fluid rounded-start p-2" alt="comic cover" style="height: 130px">
+                </div>
+                <div class="col-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ comic.comic.name }}</h5>
+                    <p class="card-text">Количина: {{ comic.quantity_added }}</p>
+                    <p class="card-text">Цена: {{ comic.comic.price }} ДЕН.</p>
+                  </div>
+                </div>
+                  <div class="col-3 text-center">
+                        <form action="{% url 'remove_from_cart' comic.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger mt-3 m-2">Отстрани 1 примерок</button>
+                        </form>
+                        <form action="{% url 'remove_all_from_cart' comic.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger m-2">Отстрани ги сите примероци</button>
+                        </form>
+                    </div>
+              </div>
+            </div>
+        </div>
+    {% empty %}
+      <p>Вашата кошничка е празна.</p>
+    {% endfor %}
+
+    <div class="row d-flex justify-content-evenly">
+        <div class="col-10">
+            <h3 class="mb-3">Вкупна цена: {{ total_price }} ДЕН.</h3>
+        </div>
+        <div class="col-1">
+            {% if comics %}
+                <a href="{% url 'order_summary' %}" class="btn btn-success">Наплата</a>
+            {% else %}
+                <a href="{% url 'order_summary' %}" class="btn btn-success disabled">Наплата</a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

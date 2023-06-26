@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h2>Регистрација</h2>
+    <div class="p-2 col-6">
+        <form method="post">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          {{ profile_form.as_p }}
+          <button class="btn btn-success" type="submit">Регистрирај се</button>
+        </form>
+    </div>
+
+{% endblock %}

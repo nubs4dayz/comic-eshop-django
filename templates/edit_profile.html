@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h2>Промена на податоци</h2>
+  <form method="post" action="{% url 'edit_profile' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success m-2">Промени</button>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h2>Наплата</h2>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <h5 class="col-4">Информации за корисникот:</h5>
+                <div class="col">
+                    <span>Не се точни информациите?</span>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-info">Промени</a>
+                </div>
+            </div>
+            <dl class="row">
+                  <dt class="col-sm-4">Име</dt>
+                  <dd class="col-sm-9">{{ user_profile.name }}</dd>
+                  <dt class="col-sm-4">Презиме</dt>
+                  <dd class="col-sm-9">{{ user_profile.surname }}</dd>
+                  <dt class="col-sm-4">Град</dt>
+                  <dd class="col-sm-9">{{ user_profile.city }}</dd>
+                  <dt class="col-sm-4">Телефонски број</dt>
+                  <dd class="col-sm-9">{{ user_profile.phone }}</dd>
+                  <dt class="col-sm-4">Адреса</dt>
+                  <dd class="col-sm-9">{{ user_profile.address }}</dd>
+              </dl>
+        </div>
+        <div class="col-6">
+            <form method="post" action="{% url 'checkout' %}">
+              {% csrf_token %}
+              {{ form.as_p }}
+                <a href="{% url 'index' %}" class="btn btn-danger m-2">Откажи</a>
+              <button type="submit" class="btn btn-success m-3">Продолжи</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

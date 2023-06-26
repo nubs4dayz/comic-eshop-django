@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <div>
+        <div class="row">
+            <div class="col-6">
+                {% if search_query %}
+                    <h2 class="m-2">{{ search_query }}</h2>
+                {% elif selected_genre%}
+                    <h2 class="m-2">{{ selected_genre }}</h2>
+                {% else %}
+                    <h2 class="m-2">Сите Стрипови</h2>
+                {% endif %}
+            </div>
+            <div class="col-6 text-end">
+                {% if user_profile.userprofile.user.is_superuser %}
+                    <a href="http://localhost:8000/admin/ComicShop/comic/add/" class="btn btn-dark m-2">Додади Стрип</a>
+                {% endif %}
+            </div>
+        </div>
+          <div class="row m-4">
+              {% for comic in comics %}
+                  <div class="card m-4 col-4 border border-2 border-primary" style="width: 19rem; background-color: #FFF7ED">
+                      <img src="{{MEDIA_URL}}{{comic.cover_photo.url}}" class="card-img-top m-1 rounded-3" alt="comic cover" style="height: 350px; padding-right: 5px">
+                      <div class="card-body">
+                        <h6 class="card-title text-center">{{ comic.name }}</h6>
+                          <div class="row">
+                              <div class="col d-flex justify-content-between">
+                                  <p class="card-text">{{ comic.publisher }}</p>
+                                  <p class="card-text">{{ comic.price }} ДЕН.</p>
+                              </div>
+                          </div>
+                        <div class="d-grid gap-2">
+                          <a class="btn btn-primary" href="{% url 'comic_detail' comic.id %}">Преглед</a>
+                            {% if user_profile.userprofile.user.is_superuser %}
+                                <a href="http://localhost:8000/admin/ComicShop/comic/{{ comic.id }}/change/" class="btn btn-warning">Измени / Избриши</a>
+                            {% endif %}
+                        </div>
+                      </div>
+                    </div>
+              {% endfor %}
+          </div>
+    </div>
+
+{% endblock %}

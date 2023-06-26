@@ -1,0 +1,60 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="row">
+    <img class="col-6 pb-2 pt-2" alt="comic cover" src="{{MEDIA_URL}}{{comic.cover_photo.url}}">
+    <div class="col-6 pb-2 pt-2">
+        <div class="card" style="background-color: #FFF7ED">
+          <div class="card-header">
+              <h2>{{ comic.name }}</h2>
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+                {{ comic.description }}
+            </p>
+
+              <dl class="row">
+                  <dt class="col-sm-3">Автор</dt>
+                  <dd class="col-sm-9">{{ comic.author }}</dd>
+                  <dt class="col-sm-3">Издавач</dt>
+                  <dd class="col-sm-9">{{ comic.publisher }}</dd>
+                  <dt class="col-sm-3">Жанр</dt>
+                  <dd class="col-sm-9">{{ comic.genre }}</dd>
+                  <dt class="col-sm-3">Година</dt>
+                  <dd class="col-sm-9">{{ comic.year_published }}</dd>
+                  <dt class="col-sm-3">Број на страници</dt>
+                  <dd class="col-sm-9">{{ comic.number_of_pages }}</dd>
+                  <dt class="col-sm-3">Количина</dt>
+                  <dd class="col-sm-9">{{ comic.quantity_in_stock }}</dd>
+              </dl>
+
+              <h4 class="border border-3 border-danger rounded-3 text-center p-1">{{ comic.price }} ДЕН.</h4>
+
+              <div class="row d-flex justify-content-between">
+                  <div class="col">
+                      <a class="btn btn-primary m-2" href="{% url 'index' %}" style="text-align: center">Назад</a>
+                  </div>
+                    <div class="col-8">
+                      {% if user.is_authenticated %}
+                          <div class="row text-center">
+                            <form method="post" action="{% url 'add_to_cart' comic.id %}">
+                              {% csrf_token %}
+                              {{ form.as_p }}
+                              <label for="quantity">Количина:</label>
+                              <input type="number" id="quantity" name="quantity" value="1" min="1" class="col-2">
+                                {% if comic.quantity_in_stock == 0 %}
+                                    <button disabled class="btn btn-success m-2" type="submit">Додај во Кошничка</button>
+                                {% else %}
+                                    <button class="btn btn-success m-2" type="submit">Додај во Кошничка</button>
+                                {% endif %}
+                            </form>
+                          </div>
+                      {% endif %}
+                  </div>
+              </div>
+
+          </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
